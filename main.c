@@ -295,7 +295,7 @@ ping_main_loop(void)
     struct rte_mbuf *pkts_burst[MAX_PKT_BURST];
     struct rte_mbuf *m = NULL;
     struct rte_ether_hdr *eth_hdr;
-    struct vlan_hdr *vlan_hdr;
+    struct rte_vlan_hdr *rte_vlan_hdr;
     struct rte_ipv4_hdr *ip_hdr;
     uint16_t eth_type;
     int l2_len;
@@ -340,9 +340,9 @@ ping_main_loop(void)
                     l2_len = sizeof(struct rte_ether_hdr);
                     if (eth_type == RTE_ETHER_TYPE_VLAN)
                     {
-                        vlan_hdr = (struct vlan_hdr *)((char *)eth_hdr + sizeof(struct rte_ether_hdr));
-                        l2_len += sizeof(struct vlan_hdr);
-                        eth_type = rte_be_to_cpu_16(vlan_hdr->eth_proto);
+                        rte_vlan_hdr = (struct rte_vlan_hdr *)((char *)eth_hdr + sizeof(struct rte_ether_hdr));
+                        l2_len += sizeof(struct rte_vlan_hdr);
+                        eth_type = rte_be_to_cpu_16(rte_vlan_hdr->eth_proto);
                     }
                     if (eth_type == RTE_ETHER_TYPE_IPV4)
                     {
@@ -385,7 +385,7 @@ pong_main_loop(void)
     struct rte_mbuf *pkts_burst[MAX_PKT_BURST];
     struct rte_mbuf *m = NULL;
     struct rte_ether_hdr *eth_hdr;
-    struct vlan_hdr *vlan_hdr;
+    struct rte_vlan_hdr *rte_vlan_hdr;
     struct rte_ipv4_hdr *ip_hdr;
     uint16_t eth_type;
     int l2_len;
@@ -411,9 +411,9 @@ pong_main_loop(void)
                 l2_len = sizeof(struct rte_ether_hdr);
                 if (eth_type == RTE_ETHER_TYPE_VLAN)
                 {
-                    vlan_hdr = (struct vlan_hdr *)((char *)eth_hdr + sizeof(struct rte_ether_hdr));
-                    l2_len += sizeof(struct vlan_hdr);
-                    eth_type = rte_be_to_cpu_16(vlan_hdr->eth_proto);
+                    rte_vlan_hdr = (struct rte_vlan_hdr *)((char *)eth_hdr + sizeof(struct rte_ether_hdr));
+                    l2_len += sizeof(struct rte_vlan_hdr);
+                    eth_type = rte_be_to_cpu_16(rte_vlan_hdr->eth_proto);
                 }
                 if (eth_type == RTE_ETHER_TYPE_IPV4)
                 {
