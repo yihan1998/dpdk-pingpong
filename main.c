@@ -18,12 +18,12 @@ uint32_t PINGPONG_LOG_LEVEL = RTE_LOG_DEBUG;
 
 /* the client side */
 static struct ether_addr client_ether_addr =
-    {{0x52, 0x54, 0x00, 0xf9, 0xfc, 0x4d}};
+    {{0x64, 0x9d, 0x99, 0xb1, 0x66, 0x88}};
 static uint32_t client_ip_addr = IPv4(172, 16, 166, 131);
 
 /* the server side */
 static struct ether_addr server_ether_addr =
-    {{0x52, 0x54, 0x00, 0x22, 0xb0, 0x7c}};
+    {{0x64, 0x9d, 0x99, 0xb1, 0x66, 0xc6}};
 static uint32_t server_ip_addr = IPv4(172, 16, 166, 132);
 
 static uint16_t cfg_udp_src = 1000;
