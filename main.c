@@ -248,7 +248,7 @@ contruct_ping_packet(void)
     eth_hdr = rte_pktmbuf_mtod(pkt, struct ether_hdr *);
     rte_ether_addr_copy(&server_ether_addr, &eth_hdr->d_addr);
     rte_ether_addr_copy(&client_ether_addr, &eth_hdr->s_addr);
-    eth_hdr->ether_type = rte_cpu_to_be_16(ETHER_TYPE_IPv4);
+    eth_hdr->ether_type = rte_cpu_to_be_16(RTE_ETHER_TYPE_IPV4);
 
     /* Initialize IP header. */
     ip_hdr = (struct ipv4_hdr *)(eth_hdr + 1);
@@ -338,13 +338,13 @@ ping_main_loop(void)
                     eth_hdr = rte_pktmbuf_mtod(m, struct ether_hdr *);
                     eth_type = rte_cpu_to_be_16(eth_hdr->ether_type);
                     l2_len = sizeof(struct ether_hdr);
-                    if (eth_type == ETHER_TYPE_VLAN)
+                    if (eth_type == RTE_ETHER_TYPE_VLAN)
                     {
                         vlan_hdr = (struct vlan_hdr *)((char *)eth_hdr + sizeof(struct ether_hdr));
                         l2_len += sizeof(struct vlan_hdr);
                         eth_type = rte_be_to_cpu_16(vlan_hdr->eth_proto);
                     }
-                    if (eth_type == ETHER_TYPE_IPv4)
+                    if (eth_type == RTE_ETHER_TYPE_IPV4)
                     {
                         ip_hdr = (struct ipv4_hdr *)((char *)eth_hdr + l2_len);
                         /* compare mac & ip, confirm it is a pong packet */
@@ -409,13 +409,13 @@ pong_main_loop(void)
                 eth_hdr = rte_pktmbuf_mtod(m, struct ether_hdr *);
                 eth_type = rte_cpu_to_be_16(eth_hdr->ether_type);
                 l2_len = sizeof(struct ether_hdr);
-                if (eth_type == ETHER_TYPE_VLAN)
+                if (eth_type == RTE_ETHER_TYPE_VLAN)
                 {
                     vlan_hdr = (struct vlan_hdr *)((char *)eth_hdr + sizeof(struct ether_hdr));
                     l2_len += sizeof(struct vlan_hdr);
                     eth_type = rte_be_to_cpu_16(vlan_hdr->eth_proto);
                 }
-                if (eth_type == ETHER_TYPE_IPv4)
+                if (eth_type == RTE_ETHER_TYPE_IPV4)
                 {
                     ip_hdr = (struct ipv4_hdr *)((char *)eth_hdr + l2_len);
                     /* compare mac & ip, confirm it is a ping packet */
