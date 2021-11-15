@@ -19,12 +19,12 @@ uint32_t PINGPONG_LOG_LEVEL = RTE_LOG_DEBUG;
 /* the client side */
 static struct rte_ether_addr client_ether_addr =
     {{0x64, 0x9d, 0x99, 0xb1, 0x66, 0x88}};
-static uint32_t client_ip_addr = IPv4(172, 16, 166, 131);
+static uint32_t client_ip_addr = RTE_IPV4(172, 16, 166, 131);
 
 /* the server side */
 static struct rte_ether_addr server_ether_addr =
     {{0x64, 0x9d, 0x99, 0xb1, 0x66, 0xc6}};
-static uint32_t server_ip_addr = IPv4(172, 16, 166, 132);
+static uint32_t server_ip_addr = RTE_IPV4(172, 16, 166, 132);
 
 static uint16_t cfg_udp_src = 1000;
 static uint16_t cfg_udp_dst = 1001;
@@ -143,7 +143,7 @@ ip_format_addr(char *buf, uint16_t size,
 static inline uint32_t
 reverse_ip_addr(const uint32_t ip_addr)
 {
-    return IPv4((uint8_t)(ip_addr & 0xff),
+    return RTE_IPV4((uint8_t)(ip_addr & 0xff),
                 (uint8_t)((ip_addr >> 8) & 0xff),
                 (uint8_t)((ip_addr >> 16) & 0xff),
                 (uint8_t)((ip_addr >> 24) & 0xff));
@@ -246,8 +246,8 @@ contruct_ping_packet(void)
 
     /* Initialize Ethernet header. */
     eth_hdr = rte_pktmbuf_mtod(pkt, struct ether_hdr *);
-    ether_addr_copy(&server_ether_addr, &eth_hdr->d_addr);
-    ether_addr_copy(&client_ether_addr, &eth_hdr->s_addr);
+    rte_ether_addr_copy(&server_ether_addr, &eth_hdr->d_addr);
+    rte_ether_addr_copy(&client_ether_addr, &eth_hdr->s_addr);
     eth_hdr->ether_type = rte_cpu_to_be_16(ETHER_TYPE_IPv4);
 
     /* Initialize IP header. */
@@ -355,8 +355,8 @@ ping_main_loop(void)
                             rtt_us = diff_tsc * US_PER_S / tsc_hz;
                             port_statistics.rtt[port_statistics.rx] = rtt_us;
 
-                            ether_addr_copy(&client_ether_addr, &eth_hdr->s_addr);
-                            ether_addr_copy(&server_ether_addr, &eth_hdr->d_addr);
+                            rte_ether_addr_copy(&client_ether_addr, &eth_hdr->s_addr);
+                            rte_ether_addr_copy(&server_ether_addr, &eth_hdr->d_addr);
 
                             ip_hdr->src_addr = rte_cpu_to_be_32(client_ip_addr);
                             ip_hdr->dst_addr = rte_cpu_to_be_32(server_ip_addr);
